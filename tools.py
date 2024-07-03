@@ -151,58 +151,57 @@ def apply_zoom_in_effect(clip, zoom_factor=1.2):
 # print(f"Video created at: {video_path}")
 
 
-class ImageGeneration(BaseModel):
-    text : str = Field(description='description of sentence used for image generation')
-    num : int = Field(description='sequence of description passed this tool. Used in image saving path. Example 1,2,3,4,5 and so on')
+# class ImageGeneration(BaseModel):
+#     text : str = Field(description='description of sentence used for image generation')
+#     num : int = Field(description='sequence of description passed this tool. Used in image saving path. Example 1,2,3,4,5 and so on')
 
-class SpeechGeneration(BaseModel):
-    text : str = Field(description='description of sentence used for image generation')
-    num : int = Field(description='sequence of description passed this tool. Used in image saving path. Example 1,2,3,4,5 and so on')
+# class SpeechGeneration(BaseModel):
+#     text : str = Field(description='description of sentence used for image generation')
+#     num : int = Field(description='sequence of description passed this tool. Used in image saving path. Example 1,2,3,4,5 and so on')
 
-@tool(args_schema=ImageGeneration)
-def image_generator(text,num):
-    """Generates images for the given text.
+# @tool
+def process_script(script):
+    """Used to process the script into dictionary format"""
+    dict = {}
+    dict['text_for_image_generation'] = re.findall(r'<image>(.*?)</?image>', script)
+    dict['text_for_speech_generation'] = re.findall(r'<narration>.*?</?narration>', script)
+    return dict
+
+@tool#(args_schema=ImageGeneration)
+def image_generator(script):
+    """Generates images for the given script.
     Saves it to images_dir and return path
     Args:
-    text: description of image enclosed in <image>
-    num: order of image generating"""
+    script: a complete script containing narrations and image descriptions"""
     images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), './outputs/images')
-    if num==1:
-        for filename in os.listdir(images_dir):
-            file_path = os.path.join(images_dir, filename)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
+    # if num==1:
+    for filename in os.listdir(images_dir):
+        file_path = os.path.join(images_dir, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
     
-    if '<image>' in text:
-        text = re.findall(r'<image>(.*?)<image>', text)
-    else:
-        text = text
-    image = pipe(text, num_inference_steps=6, guidance_scale=2, width=720, height=1280, verbose=0).images[0]
-    # print(num)
-    os.remove(os.path.join(images_dir, f'image{num}.jpg')) if os.path.exists(os.path.join(images_dir, f'image{num}.jpg')) else None
-    image.save(os.path.join(images_dir, f'image{num}.jpg'))
-    return f'image {num} generated.'#f'image generated for "{text}" and saved to directory {images_dir} as image{num}.jpg'
+    dict = process_script(script)
+    for i, text in enumerate(dict['text_for_image_generation']):
+        image = pipe(text, num_inference_steps=12, guidance_scale=2, width=720, height=1280, verbose=0).images[0]
+        image.save(os.path.join(images_dir, f'image{i}.jpg'))
+    return f'images generated.'#f'image generated for "{text}" and saved to directory {images_dir} as image{num}.jpg'
 
 @tool
-def speech_generator(text, num):
+def speech_generator(script):
     """Generates speech for given text
     Saves it to speech_dir and return path
     Args:
-    text: narration enclosed in <speech>
-    num: order of speech generating
-    """
+    script: a complete script containing narrations and image descriptions"""
     speech_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), './outputs/speeches')
 
-    if num==1:
-        for filename in os.listdir(speech_dir):
-            file_path = os.path.join(speech_dir, filename)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
+    # if num==1:
+    for filename in os.listdir(speech_dir):
+        file_path = os.path.join(speech_dir, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
     
-    if '<narration>' in text:
-        text = re.findall(r'<narration>(.*?)<narration>', text)
-    else:
-        text = text
-    # print(num)
-    generate_speech(text, speech_dir, num=num)
-    return f'speech {num} generated.'#f'speech generated for "{text}" and saved to directory {speech_dir} as speech{num}.mp3'
+    dict = process_script(script)
+    print(dict)
+    for i, text in enumerate(dict['text_for_speech_generation']):
+        generate_speech(text, speech_dir, num=i)
+    return f'speechs generated.'#f'speech generated for "{text}" and saved to directory {speech_dir} as speech{num}.mp3'

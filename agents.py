@@ -19,9 +19,18 @@ image_descriptive_agent = Agent(
     allow_delegation=False
 )
 
+# img_speech_generating_agent = Agent(
+#     role='Multimedia Content Creator',
+#     goal='Generate high-quality images and speeches for YouTube short videos one after another based on provided descriptions.',
+#     backstory='As a multimedia expert, you excel at creating engaging multimedia content that brings stories to life.',
+#     verbose=True,
+#     llm=llm,
+#     allow_delegation=False
+# )
+
 img_speech_generating_agent = Agent(
     role='Multimedia Content Creator',
-    goal='Generate high-quality images and speeches for YouTube short videos one after another based on provided descriptions.',
+    goal='Generate high-quality images and speeches for YouTube short videos based on provided script',
     backstory='As a multimedia expert, you excel at creating engaging multimedia content that brings stories to life.',
     verbose=True,
     llm=llm,
@@ -64,22 +73,49 @@ img_text_task = Task(
 
     **Output format:**
 
-    <narration>1. Embark on a journey through time and marvel at the ancient wonders of the world!<narration>
-    <narration>2. From the majestic Great Pyramid of Giza, symbolizing the ingenuity of ancient Egypt,<narration>
-    <narration>3. to the Hanging Gardens of Babylon, an oasis of lush beauty amidst ancient Mesopotamia's arid landscape,<narration>
-    <narration>4. These remarkable structures continue to intrigue and inspire awe, reminding us of humanity's enduring quest for greatness.<narration>
+    <narration>Embark on a journey through time and marvel at the ancient wonders of the world!</narration>
+    <image>A breathtaking view of various ancient wonders, showcasing their grandeur and mystery.</image>
 
-    <image>1. A breathtaking view of various ancient wonders, showcasing their grandeur and mystery.<image>
-    <image>2. The majestic Great Pyramid of Giza, standing tall against the desert backdrop, a testament to ancient engineering.<image>
-    <image>3. The Hanging Gardens of Babylon, lush greenery cascading from terraced gardens, amidst the arid Mesopotamian landscape.<image>
-    <image>4. Visitors captivated by the beauty and historical significance of these ancient marvels, exploring and marveling.<image>
+    <narration>From the majestic Great Pyramid of Giza, symbolizing the ingenuity of ancient Egypt,</narration>
+    <image>The majestic Great Pyramid of Giza, standing tall against the desert backdrop, a testament to ancient engineering.</image>
+
+    <narration>to the Hanging Gardens of Babylon, an oasis of lush beauty amidst ancient Mesopotamia's arid landscape,</narration>
+    <image>The Hanging Gardens of Babylon, lush greenery cascading from terraced gardens, amidst the arid Mesopotamian landscape.</image>
+
+    <narration>These remarkable structures continue to intrigue and inspire awe, reminding us of humanity's enduring quest for greatness.</narration>
+    <image>Visitors captivated by the beauty and historical significance of these ancient marvels, exploring and marveling.</image>
     """,
     agent=image_descriptive_agent,
     context=[story_writing_task]
 )
 
+
+
+# process_script_task = Task(
+#     description="Extract text for image and speech generation from a provided script.",
+#     expected_output="A dictionary containing lists of texts for image generation and speech generation.",
+#     agent=ScriptSynthesizer
+# )
+
+# img_generation_task = Task(
+#     description='Given the input generate images for sequence of sentence enclosed in <image> tag.',
+#     expected_output="""Acknowledgement of image generation""",
+#     tools = [image_generator],
+#     context = [img_text_task],
+#     # async_execution=True,
+#     agent=img_speech_generating_agent
+# )
+
+# speech_generation_task = Task(
+#     description='Given the input generate speech for each sentence enclosed in <narration> tag.',
+#     expected_output="""Acknowledgement of speech generation""",
+#     tools = [speech_generator],
+#     context = [img_text_task],
+#     # async_execution=True,
+#     agent=img_speech_generating_agent
+# )
 img_generation_task = Task(
-    description='Given the input generate images for sequence of sentence enclosed in <image> tag.',
+    description='Given the script, use the given tool to generate images',
     expected_output="""Acknowledgement of image generation""",
     tools = [image_generator],
     context = [img_text_task],
@@ -88,7 +124,7 @@ img_generation_task = Task(
 )
 
 speech_generation_task = Task(
-    description='Given the input generate speech for each sentence enclosed in <narration> tag.',
+    description='Given the script, use the given tool to generate speech',
     expected_output="""Acknowledgement of speech generation""",
     tools = [speech_generator],
     context = [img_text_task],
