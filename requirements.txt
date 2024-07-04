@@ -1,0 +1,10 @@
+crewai
+crewai-tools
+langchain_groq
+langchain
+langchain_community
+moviepy
+opencv-python
+gradio
+wikipedia
+pyttsx3
