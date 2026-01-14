@@ -1,14 +1,7 @@
 # ShortsIn - AI-Powered Short Video Generator
 
-<div align="center">
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/downloads/)
-[![Status: Active Development](https://img.shields.io/badge/Status-Active%20Development-brightgreen)](https://github.com/prudvireddyNS/lablabai-hackathon)
-
 Transform your ideas into captivating short videos with the power of AI
 
-</div>
 
 ## 📺 Overview
 
@@ -214,74 +207,3 @@ pytest --cov=src
 # Run specific test file
 pytest tests/test_generator.py -v
 ```
-
-## 🌟 Features in Development
-
-- [ ] Real-time video preview
-- [ ] Batch video generation
-- [ ] Custom music library integration
-- [ ] Advanced subtitle styling
-- [ ] Social media auto-posting
-- [ ] Analytics dashboard
-- [ ] Team collaboration tools
-- [ ] Web-based UI
-
-## 📊 Performance
-
-- Average generation time: 2-5 minutes for 30-second videos
-- Supported resolutions: Up to 4K
-- Platform support: TikTok, Instagram Reels, YouTube Shorts, Snapchat
-- Concurrent video generation: Up to 10 simultaneous videos
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and development process.
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [LabLab.ai](https://lablab.ai) for the hackathon platform
-- OpenAI for GPT models and AI capabilities
-- The open-source community for incredible tools and libraries
-- All contributors and supporters of this project
-
-## 📧 Contact & Support
-
-- **Email**: [your-email@example.com]
-- **GitHub Issues**: [Report bugs here](https://github.com/prudvireddyNS/lablabai-hackathon/issues)
-- **Discussions**: [Join our community](https://github.com/prudvireddyNS/lablabai-hackathon/discussions)
-
-## 🗺️ Roadmap
-
-See the [open issues](https://github.com/prudvireddyNS/lablabai-hackathon/issues) for a list of proposed features and known issues.
-
-### Q1 2026 Goals
-- [ ] v1.0 release with core features
-- [ ] Web dashboard launch
-- [ ] Multi-language expansion
-
-### Q2 2026 Goals
-- [ ] Mobile app development
-- [ ] Advanced analytics suite
-- [ ] Enterprise features
-
----
-
-<div align="center">
-
-**Made with ❤️ by the ShortsIn Team**
-
-[Star us on GitHub](https://github.com/prudvireddyNS/lablabai-hackathon) ⭐
-
-</div>
